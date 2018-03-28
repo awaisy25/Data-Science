@@ -1,0 +1,63 @@
+//Program that analysis a yahoo uses NLTK functions to find words that are in the NLTk Corpus and are Lemmatize
+
+import json 
+import nltk
+from nltk.corpus import words
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+import csv
+
+with open("yelp_academic_dataset_review_small.json") as Data:
+    JsData = json.load(Data)
+    #input values 
+    lemmatizer = WordNetLemmatizer()
+    stop_words = set(stopwords.words('english'))
+    Words = set(words.words("en"))
+    WordDic = {}
+    LemmaWords = []
+    stars = []
+    ratingDict = {}
+    count = 0
+    #My code does take a little time to run the whole data set, quicker if you did JsData[:500] or JsData[:1000]
+    #To see that it works
+    for i in JsData:
+        Tokenized = nltk.word_tokenize(i['text'].lower())
+        LemonWord = [lemmatizer.lemmatize(x) for x in Tokenized]
+        # Taking the words out that are stop words then taking the ones that are not in the corpus words
+        ProcessedWords = [w for w in LemonWord if w not in stop_words and w.isalnum()]
+        NotIn = [x for x in ProcessedWords if x in Words]
+        #removing the numbers in the list
+        Lemmas = [x for x in NotIn if not any(c.isdigit() for c in x)]
+        stars.append(int(i['stars']))
+        #This puts the words in a dictionary and the values for the word will be
+        #Each star rating it has 
+        for w in Lemmas:
+            if w in ratingDict:
+                ratingDict[w].append(stars[count])
+            else:
+                ratingDict.setdefault(w, [])
+                ratingDict[w].append(stars[count])
+        count +=1 
+    #first step is find the average rating, seprative them pos and neg and then sort them
+    AverageRating = {words: (sum(values)/len(values)) for words, values in ratingDict.items() if len(values) > 10}
+    negativeLemma = {word: value for word,value in AverageRating.items() if value < 3}
+    positiveLemma = {word: value for word,value in AverageRating.items() if value >= 3}
+    negativeSorted = sorted(negativeLemma.items(), key=lambda x: (x[1]))
+    positiveSorted = sorted(positiveLemma.items(), key=lambda x: (x[1]), reverse = True)
+    
+    TopNeg = negativeSorted[:500]
+    TopPos =  positiveSorted[:500]
+    #Writing into the csvFile/output phase
+with open("Sentiment_Analysis.csv","w") as WriteFile:
+    writer = csv.writer(WriteFile, delimiter =",",quotechar ='"')
+    header = ["Lemma Word","Sentiment Level"]
+    writer.writerow(header)
+    writer.writerow(["Negative Lemmas"])
+    for x in TopNeg:
+        col = [x[0],x[1]]
+        writer.writerow(col)
+    writer.writerow(["Positive Lemmas"])
+    for x in TopPos:
+        col2 = [x[0],x[1]]
+        writer.writerow(col2)
+            
