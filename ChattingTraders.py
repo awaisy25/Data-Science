@@ -6,7 +6,12 @@ Awais and phong created this. We used a couple of online resources to figure out
 do the plots.
 @author: awais
 """
-
+"""
+This project analysis data for a Forex trading system and Communicatiosn trhough messages. 
+It is created through pandas data frames. 
+It retrives the number of users, discussion.
+The different type of messages and posts. 
+"""
 import pandas as pd
 from matplotlib import pyplot as plt
 import datetime
