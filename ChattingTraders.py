@@ -3,7 +3,7 @@
 """
 Created on Sun Mar 25 15:37:17 2018
 Awais and phong created this. We used a couple of online resources to figure out how to 
-do the plots. Mike Fusiek/Jordan and Maria gave us good advice 
+do the plots.
 @author: awais
 """
 
