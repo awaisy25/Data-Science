@@ -5,7 +5,7 @@ Created on Tue May 14 01:21:38 2019
 
 @author: awais
 """
-
+# Code that analyzes Boston Crimes Data set and visualizes the Top 10 crimes in the Data Set
 import pandas as pd
 import matplotlib.pyplot as plt 
 #Read the crime file can update the crimes through link
