@@ -9,3 +9,7 @@ I have done the following:
 
 # IDE
 Anaconda with Python 3
+
+# CSV Files
+Please read the comments in the code to make sure you have the downaloaded the correct csv with the correct python code
+
