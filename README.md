@@ -6,3 +6,6 @@ I have done the following:
 - Program that anaylzes the chatter flow from Forbes data sets 
 - Crime anaylsis that uses pandas to look into insights
 - Cluster analysis based on test scores
+
+# IDE
+Anaconda with Python 3
